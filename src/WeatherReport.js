@@ -5,7 +5,7 @@ class WeatherReport {
         this.apiUri = 'https://avwx.rest/api/';
     }
 
-    GetWeather(location, taf = false) {
+    getWeather(location, taf = false) {
         return new Promise( (resolve, reject) => {
             Request.get(this.apiUri + (taf ? 'taf' : 'metar') + '/' + location)
                 .end((err, res) => {
@@ -20,12 +20,12 @@ class WeatherReport {
 
     }
 
-    GetTaf(location) {
-        return this.GetWeather(location, true);
+    getTaf(location) {
+        return this.getWeather(location, true);
     }
 
-    GetMetar(location) {
-        return this.GetWeather(location, false);
+    getMetar(location) {
+        return this.getWeather(location, false);
     }
 }
 export default WeatherReport;

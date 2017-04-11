@@ -59,6 +59,35 @@ describe('application logic', () => {
             }));
         });
 
+        it('removes an airfield from the list, if it exists', () => {
+            let x = new AppLogic();
+            const state = Map({
+                airfields: List([
+                    'EGCC'
+                ])
+            });
+            const nextState = x.removeAirfield(state, 'EGCC');
+            expect(nextState).to.equal(Map({
+                airfields: List([
+                ])
+            }));
+        });
+
+        it('doesn\'t do anything if it tries to remove an airfield that isn\'t in the list', () => {
+            let x = new AppLogic();
+            const state = Map({
+                airfields: List([
+                    'EGCC'
+                ])
+            });
+            const nextState = x.removeAirfield(state, 'EGGP');
+            expect(nextState).to.equal(Map({
+                airfields: List([
+                    'EGCC'
+                ])
+            }));
+        });
+
     });
 
 });

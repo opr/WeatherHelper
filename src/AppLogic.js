@@ -15,4 +15,8 @@ export default class AppLogic {
     addAirfield(state, airfield) {
         return state.get('airfields').contains(airfield) ? state : state.set('airfields', state.get('airfields').push(airfield));
     }
+
+    removeAirfield(state, airfield) {
+        return state.get('airfields').contains(airfield) ? state.set('airfields', state.get('airfields').delete(state.get('airfields').indexOf(airfield))) : state;
+    }
 }
