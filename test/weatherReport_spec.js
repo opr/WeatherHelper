@@ -10,4 +10,11 @@ describe('Weather Report', () => {
             expect(weather).to.include('EGGP').and.to.have.lengthOf(weather, 50);
         })
     });
+
+    it('handles an error', () => {
+        const metar = w.getMetar('EGGfffP');
+        metar.catch((weather) => {
+            expect(weather).to.equal('Error loading weather for EGGfffP');
+        })
+    });
 });
