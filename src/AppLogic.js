@@ -8,7 +8,8 @@ export default class AppLogic {
 
     getInitialState() {
         return Map({
-            airfields: List()
+            airfields: List(),
+            weather: Map({})
         });
     }
 
@@ -17,6 +18,16 @@ export default class AppLogic {
     }
 
     removeAirfield(state, airfield) {
-        return state.get('airfields').contains(airfield) ? state.set('airfields', state.get('airfields').delete(state.get('airfields').indexOf(airfield))) : state;
+        return state.get('airfields').contains(airfield) ? state.set('airfields', state.get('airfields').delete(state.get('airfields').indexOf(airfield))).deleteIn(['weather', airfield]) : state;
+    }
+
+    updateWeather(state, payload) {
+        let isTaf = payload.type === 'taf';
+
+        //check if airfield exists
+        if (!state.get('airfields').contains(payload.airfield)) {
+            return state;
+        }
+        return state.setIn(['weather', payload.airfield, isTaf ? 'taf' : 'metar'], payload.body);
     }
 }

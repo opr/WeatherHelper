@@ -9,7 +9,8 @@ describe('reducer', () => {
     it('handles INIT_STATE', () => {
         let x = new AppLogic();
         expect(x.INITIAL_STATE).to.equal(Map({
-            airfields: List()
+            airfields: List(),
+            weather: Map({})
         }));
     });
 
@@ -23,7 +24,59 @@ describe('reducer', () => {
             Map({
                 airfields: List([
                     'EGGP'
-                ])
+                ]),
+                weather: Map({})
+            })
+        );
+    });
+
+    it('handles UPDATE_WEATHER with a metar for airfield that exists but has no weather data yet', () => {
+        const initialState = Map({
+            airfields: List([
+                'EGGP'
+            ]),
+            weather: Map({})
+        });
+        const action = {
+            type: 'UPDATE_WEATHER',
+            payload: {airfield: 'EGGP', type: 'metar', body: 'EGGP 152120Z 30007KT 9999 SCT022 08/04 Q1021'}
+        };
+        const nextState = reducer(initialState, action);
+        expect(nextState).to.equal(
+            Map({
+                airfields: List([
+                    'EGGP'
+                ]),
+                weather: Map({
+                    EGGP: Map({metar: 'EGGP 152120Z 30007KT 9999 SCT022 08/04 Q1021'})
+                })
+            })
+        );
+
+    });
+
+    it('handles UPDATE_WEATHER with a metar for airfield that exists and already has weather data', () => {
+        const initialState = Map({
+            airfields: List([
+                'EGGP'
+            ]),
+            weather: Map({
+                EGGP: Map({metar: 'EGGP 152120Z 30007KT 9999 SCT022 08/04 Q1021'})
+            })
+        });
+        const action = {
+            type: 'UPDATE_WEATHER',
+            payload: {airfield: 'EGGP', type: 'metar', body: 'EGGP 152120Z 30007KT 9999 SCT022 08/04 Q1022'}
+        };
+        const nextState = reducer(initialState, action);
+        expect(nextState).to.equal(
+            Map({
+                airfields: List([
+                    'EGGP'
+                ]),
+                weather: Map({
+                    EGGP: Map({metar: 'EGGP 152120Z 30007KT 9999 SCT022 08/04 Q1022'})
+                })
             })
         );
     });
@@ -38,8 +91,8 @@ describe('reducer', () => {
 
         expect(finalState).to.equal(
             Map({
-                airfields: List([
-                ])
+                airfields: List([]),
+                weather: Map({})
             })
         );
     });
@@ -48,7 +101,8 @@ describe('reducer', () => {
         const action = {type: 'ADD_AIRFIELD', payload: 'EGGP'};
         const nextState = reducer(undefined, action);
         expect(nextState).to.equal(Map({
-            airfields: List(['EGGP'])
+            airfields: List(['EGGP']),
+            weather: Map({})
         }));
     });
 
@@ -70,7 +124,8 @@ describe('reducer', () => {
                 'EGGP',
                 'EGOW',
                 'EGKK'
-            ])
+            ]),
+            weather: Map({})
         }));
     });
 });

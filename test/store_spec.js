@@ -6,14 +6,18 @@ describe('store', () => {
 
     it('is a Redux store configured with the correct reducer', () => {
         const store = makeStore();
-        expect(store.getState()).to.equal(Map({airfields: List([])}));
+        expect(store.getState()).to.equal(Map({
+            airfields: List([]),
+            weather: Map({})
+        }));
 
         store.dispatch({
             type: 'ADD_AIRFIELD',
             payload: 'EGGP'
         });
         expect(store.getState()).to.equal(Map({
-            airfields: List(['EGGP'])
+            airfields: List(['EGGP']),
+            weather: Map({})
         }));
     });
 

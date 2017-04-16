@@ -9,6 +9,8 @@ export default function reducer(state = defaultState, action) {
             return app.addAirfield(state, action.payload);
         case 'REMOVE_AIRFIELD' :
             return app.removeAirfield(state, action.payload);
+        case 'UPDATE_WEATHER':
+            return app.updateWeather(state, action.payload);
         default:
             return state;
     }

@@ -9,15 +9,13 @@ class WeatherReport {
         return new Promise((resolve, reject) => {
             Request.get(this.apiUri + (taf ? 'taf' : 'metar') + '/' + location)
                 .end((err, res) => {
-                    console.log(res);
                     if (res.body["Error"]) {
                         reject('Error loading weather for ' + location);
                     }
                     if (err) {
                         reject('Error loading werather for ' + location);
                     }
-                    //console.log(res.body["Raw-Report"]);
-                    resolve(res.body["Raw-Report"]);
+                    resolve({airfield: location, type: taf ? 'taf' : 'metar', body: res.body["Raw-Report"]});
                 });
         });
 
