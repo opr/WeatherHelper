@@ -7,7 +7,6 @@ class WeatherPanel extends Component {
 
     constructor(props) {
         super();
-        console.log(props);
         this.state = {
             airfield: props.airfield,
             taf: props.weather ? props.weather.taf : 'Loading Taf\u2026',

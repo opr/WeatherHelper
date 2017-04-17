@@ -26,10 +26,12 @@ class App extends Component {
         if (!this.props) {
             return;
         }
+        console.log(this.props, 'get weather');
         let w = new WeatherReport();
         let promises = [];
 
-        for (let a of this.props.airfields) {
+        for (let a of this.props.airfields.values()) {
+            console.log('fetching weather for', a);
             let m = w.getWeather(a);
             let t = w.getWeather(a, true);
             promises = [... promises, m, t];
@@ -44,12 +46,17 @@ class App extends Component {
         });
     }
 
+    componentDidUpdate(props) {
+        if(props != this.props) {
+            this.getWeather();
+        }
+    }
+
     addAirfield() {
         if (this.state.addAirfieldText.length != 4) {
             return;
         }
         this.props.addAirfield(this.state.addAirfieldText.toUpperCase());
-        this.getWeather();
     }
 
     render() {
